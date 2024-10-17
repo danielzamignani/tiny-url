@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { typeORMConnection } from './configs/typeorm.connection';
+import { typeORMConnection } from './database/typeorm.connection';
 
 @Module({
   imports: [typeORMConnection],
