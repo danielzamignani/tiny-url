@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { UserService } from '../../../domains/users/services/user.service';
 
 import * as bcrypt from 'bcrypt';
-import { SingUpDTO } from '../dtos/singup.req.dto';
+import { SignUpDTO } from '../dtos/signup.req.dto';
 
 jest.mock('bcrypt', () => ({
     hash: jest.fn(),
@@ -38,18 +38,18 @@ describe('UserService Tests', () => {
         expect(authService).toBeDefined();
     });
 
-    describe('singup', () => {
-        const singUpDTO: SingUpDTO = {
+    describe('signUp', () => {
+        const signUpDTO: SignUpDTO = {
             email: 'danielzamignani@gmail.com',
             name: 'Daniel Zamignani',
             password: '12345678',
         };
 
         it('should hash password before create user', async () => {
-            await authService.signUp(singUpDTO);
+            await authService.signUp(signUpDTO);
 
             expect(bcrypt.hash).toHaveBeenCalledTimes(1);
-            expect(bcrypt.hash).toHaveBeenCalledWith(singUpDTO.password, 10);
+            expect(bcrypt.hash).toHaveBeenCalledWith(signUpDTO.password, 10);
         });
 
         it('should call create user method', async () => {
@@ -57,11 +57,11 @@ describe('UserService Tests', () => {
 
             (bcrypt.hash as jest.Mock).mockResolvedValueOnce(passwordHash);
 
-            await authService.signUp(singUpDTO);
+            await authService.signUp(signUpDTO);
 
             expect(userService.createUser).toHaveBeenCalledTimes(1);
             expect(userService.createUser).toHaveBeenCalledWith({
-                ...singUpDTO,
+                ...signUpDTO,
                 password: passwordHash,
             });
         });

@@ -5,8 +5,8 @@ import {
     ApiCreatedResponse,
     ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
-import { SignUpResponseDTO } from '../dtos/singup.res.dto';
-import { SingUpDTO } from '../dtos/singup.req.dto';
+import { SignUpResponseDTO } from '../dtos/signup.res.dto';
+import { SignUpDTO } from '../dtos/signup.req.dto';
 
 export function ApiUserSignup() {
     return applyDecorators(
@@ -14,7 +14,7 @@ export function ApiUserSignup() {
             summary: 'Create a user',
             description: 'Create a new user',
         }),
-        ApiBody({ type: SingUpDTO }),
+        ApiBody({ type: SignUpDTO }),
         ApiCreatedResponse({ type: SignUpResponseDTO }),
         ApiUnprocessableEntityResponse({
             schema: {

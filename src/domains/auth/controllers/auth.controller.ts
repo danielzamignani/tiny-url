@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { SingUpDTO } from '../dtos/singup.req.dto';
+import { SignUpDTO } from '../dtos/signup.req.dto';
 import { AuthService } from '../services/auth.service';
-import { SignUpResponseDTO } from '../dtos/singup.res.dto';
+import { SignUpResponseDTO } from '../dtos/signup.res.dto';
 import { ApiUserSignup } from '../decorators/api-user-signup.decorator';
 
 @ApiTags('Auth')
@@ -12,7 +12,7 @@ export class AuthController {
 
     @ApiUserSignup()
     @Post('signup')
-    async signUp(@Body() singUpDTO: SingUpDTO): Promise<SignUpResponseDTO> {
-        return this.authService.signUp(singUpDTO);
+    async signUp(@Body() signUpDTO: SignUpDTO): Promise<SignUpResponseDTO> {
+        return this.authService.signUp(signUpDTO);
     }
 }
