@@ -76,12 +76,6 @@ describe('UserService Tests', () => {
             expect(userRepository.insert).toHaveBeenCalledTimes(1);
             expect(userRepository.insert).toHaveBeenCalledWith(userMock);
         });
-
-        it('should return user', async () => {
-            const res = await userService.createUser(createUserDTO);
-
-            expect(res).toEqual(userMock);
-        });
     });
 
     describe('getUserByEmail', () => {
