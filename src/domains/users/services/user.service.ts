@@ -29,12 +29,10 @@ export class UserService {
         await this.userRepository.insert(user);
     }
 
-    async getUserByEmail(email: string): Promise<User> {
+    async getUserByEmail(email: string): Promise<User | null> {
         const user = await this.userRepository.findOneBy({
             email,
         });
-
-        if (!user) throw new NotFoundException('User not found');
 
         return user;
     }
