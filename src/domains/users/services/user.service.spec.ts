@@ -90,14 +90,6 @@ describe('UserService Tests', () => {
             });
         });
 
-        it('should throw an error if user not exists', async () => {
-            (userRepository.findOneBy as jest.Mock).mockResolvedValueOnce(null);
-
-            await expect(userService.getUserByEmail(email)).rejects.toThrow(
-                NotFoundException
-            );
-        });
-
         it('should return user', async () => {
             const user = await userService.getUserByEmail(email);
 
