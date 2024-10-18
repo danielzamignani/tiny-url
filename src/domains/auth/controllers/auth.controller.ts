@@ -12,7 +12,7 @@ export class AuthController {
 
     @ApiUserSignup()
     @Post('signup')
-    async createUser(@Body() singUpDTO: SingUpDTO): Promise<SignUpResponseDTO> {
+    async signUp(@Body() singUpDTO: SingUpDTO): Promise<SignUpResponseDTO> {
         return this.authService.signUp(singUpDTO);
     }
 }
