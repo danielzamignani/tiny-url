@@ -35,4 +35,9 @@ export class User {
         default: Date.now(),
     })
     created_at: string;
+
+    @BeforeInsert()
+    generateId() {
+        this.id = crypto.randomUUID();
+    }
 }

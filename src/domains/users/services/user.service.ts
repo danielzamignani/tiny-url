@@ -16,15 +16,17 @@ export class UserService {
     constructor() {}
 
     async createUser(createUserDTO: CreateUserDTO): Promise<void> {
-        const user = await this.userRepository.count({
+        const userCount = await this.userRepository.count({
             where: { email: createUserDTO.email },
         });
 
-        if (user) {
+        if (userCount !== 0) {
             throw new UnprocessableEntityException('User already exists');
         }
 
-        await this.userRepository.insert(createUserDTO);
+        const user = this.userRepository.create(createUserDTO);
+
+        await this.userRepository.insert(user);
     }
 
     async getUserByEmail(email: string): Promise<User> {
