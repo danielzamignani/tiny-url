@@ -8,7 +8,7 @@ import {
 import { SignUpResponseDTO } from '../dtos/signup.res.dto';
 import { SignUpDTO } from '../dtos/signup.req.dto';
 
-export function ApiUserSignup() {
+export function ApiUserSignUp() {
     return applyDecorators(
         ApiOperation({
             summary: 'Create a user',
