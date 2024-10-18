@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, BeforeInsert } from 'typeorm';
 
-@Entity('Users')
+@Entity('users')
 export class User {
     @PrimaryColumn({
         type: 'uuid',
@@ -34,5 +34,5 @@ export class User {
         nullable: false,
         default: Date.now(),
     })
-    created_at?: number;
+    created_at: string;
 }
