@@ -9,6 +9,7 @@ async function bootstrap() {
         .setTitle('Tiny URL')
         .setDescription('API documentation for the Tiny URL service')
         .setVersion('1.0')
+        .addBearerAuth()
         .addTag('URLs')
         .build();
     const documentFactory = () => SwaggerModule.createDocument(app, config);
