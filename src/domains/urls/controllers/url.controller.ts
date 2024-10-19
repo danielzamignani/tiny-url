@@ -1,4 +1,16 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    ParseUUIDPipe,
+    Post,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UrlService } from '../services/url.service';
 import { CreateShortUrlDTO } from '../dtos/create-short-url.req.dto';
@@ -10,6 +22,7 @@ import { GetUserUrlsDTO } from '../dtos/get-user-urls.req.dto';
 import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
 import { SimpleJwtGuard } from 'src/shared/guards/simple-jwt.guard';
 import { ApiGetUserUrls } from '../decorators/api-get-user-urls.decorator';
+import { ApiDeleteUserUrl } from '../decorators/api-delete-user-url.decorator';
 
 @ApiBearerAuth()
 @ApiTags('Url')
@@ -40,5 +53,16 @@ export class UrlController {
             currentUser.sub,
             getUserUrlsDTO
         );
+    }
+
+    @ApiDeleteUserUrl()
+    @UseGuards(SimpleJwtGuard)
+    @HttpCode(HttpStatus.NO_CONTENT)
+    @Delete(':urlId')
+    async deleteUserUrl(
+        @Param('urlId', new ParseUUIDPipe()) urlId: string,
+        @CurrentUser() currentUser: ICurrentUser
+    ): Promise<void> {
+        await this.urlService.deleteUserUrl(urlId, currentUser.sub);
     }
 }
