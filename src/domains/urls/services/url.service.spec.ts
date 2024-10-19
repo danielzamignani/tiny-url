@@ -9,9 +9,15 @@ import { CreateShortUrlResponseDTO } from '../dtos/create-short-url.res.dto';
 import { PaginationRequestDTO } from '../../../shared/dtos/pagination.req.dto';
 import { VwActiveUrl } from '../../../database/entities/vw-active-urls.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import { getUTCDate } from '../../../shared/helpers/date.helper';
 
 jest.mock('nanoid', () => ({
     nanoid: jest.fn(),
+}));
+
+jest.mock('../../../shared/helpers/date.helper', () => ({
+    getUTCDate: jest.fn(),
 }));
 
 jest.mock('nestjs-typeorm-paginate', () => ({
@@ -35,7 +41,7 @@ jest.mock('nestjs-typeorm-paginate', () => ({
     }),
 }));
 
-const userId = '12345';
+const userId = urlMock.user_id;
 
 const queryBuilderMock = {
     where: jest.fn(),
@@ -61,6 +67,7 @@ describe('UrlService Tests', () => {
                         createQueryBuilder: jest
                             .fn()
                             .mockImplementation(() => queryBuilderMock),
+                        findOneBy: jest.fn().mockResolvedValue(urlMock),
                     },
                 },
             ],
@@ -174,6 +181,58 @@ describe('UrlService Tests', () => {
             await urlService.getUserUrls(userId, paginationOptions);
 
             expect(paginate).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('deleteUserUrl', () => {
+        const urlId = urlMock.id;
+
+        it('should find the url by id', async () => {
+            await urlService.deleteUserUrl(urlId, userId);
+
+            expect(vwActiveUrlRepository.findOneBy).toHaveBeenCalledTimes(1);
+            expect(vwActiveUrlRepository.findOneBy).toHaveBeenCalledWith({
+                id: urlId,
+            });
+        });
+
+        it('should throw error if not found url', async () => {
+            (
+                vwActiveUrlRepository.findOneBy as jest.Mock
+            ).mockResolvedValueOnce(null);
+
+            await expect(
+                urlService.deleteUserUrl(urlId, userId)
+            ).rejects.toThrow(NotFoundException);
+        });
+
+        it('should throw error if user id dont match', async () => {
+            await expect(
+                urlService.deleteUserUrl(urlId, '123456')
+            ).rejects.toThrow(ForbiddenException);
+        });
+
+        it('should call getUTCDate function', async () => {
+            await urlService.deleteUserUrl(urlId, userId);
+
+            expect(getUTCDate).toHaveBeenCalledTimes(1);
+        });
+
+        it('should register update in table with the date', async () => {
+            const deleteDate = new Date();
+
+            (getUTCDate as jest.Mock).mockReturnValueOnce(deleteDate);
+
+            await urlService.deleteUserUrl(urlId, userId);
+
+            expect(urlRepository.update).toHaveBeenCalledTimes(1);
+            expect(urlRepository.update).toHaveBeenCalledWith(
+                { id: urlId },
+                {
+                    deleted_at: deleteDate,
+                    updated_at: deleteDate,
+                }
+            );
         });
     });
 });

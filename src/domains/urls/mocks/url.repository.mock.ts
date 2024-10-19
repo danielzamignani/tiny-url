@@ -13,4 +13,5 @@ export const urlMock: Omit<Url, 'generateId'> = {
 export const urlRepositoryMock = {
     insert: jest.fn(),
     create: jest.fn().mockReturnValue(urlMock),
+    update: jest.fn(),
 };
