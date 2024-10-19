@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryColumn, BeforeInsert } from 'typeorm';
+import {
+    Column,
+    Entity,
+    PrimaryColumn,
+    BeforeInsert,
+    OneToMany,
+} from 'typeorm';
+import { Url } from './urls.entity';
 
 @Entity('users')
 export class User {
@@ -35,6 +42,9 @@ export class User {
         default: Date.now(),
     })
     created_at: string;
+
+    @OneToMany(() => Url, (url) => url.user)
+    urls?: Url[];
 
     @BeforeInsert()
     generateId() {
