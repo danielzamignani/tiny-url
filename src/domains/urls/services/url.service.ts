@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+    ForbiddenException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { nanoid } from 'nanoid';
 import { Url } from '../../../database/entities/urls.entity';
@@ -8,6 +12,7 @@ import { VwActiveUrl } from '../../../database/entities/vw-active-urls.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { PaginationRequestDTO } from '../../../shared/dtos/pagination.req.dto';
 import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
+import { getUTCDate } from '../../../shared/helpers/date.helper';
 
 @Injectable()
 export class UrlService {
@@ -58,5 +63,28 @@ export class UrlService {
         });
 
         return paginationResult;
+    }
+
+    async deleteUserUrl(urlId: string, userId: string): Promise<void> {
+        const url = await this.vwActiveUrlRepository.findOneBy({
+            id: urlId,
+        });
+
+        if (!url) throw new NotFoundException('Url not found');
+
+        if (url.user_id !== userId) {
+            throw new ForbiddenException(
+                'This URL does not belong to your account'
+            );
+        }
+
+        const deleteDate = getUTCDate();
+        await this.urlRepository.update(
+            { id: urlId },
+            {
+                deleted_at: deleteDate,
+                updated_at: deleteDate,
+            }
+        );
     }
 }

@@ -16,4 +16,7 @@ export class VwActiveUrl {
 
     @ViewColumn()
     updated_at: string;
+
+    @ViewColumn()
+    user_id: string;
 }

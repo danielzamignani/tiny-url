@@ -35,21 +35,21 @@ export class Url {
         nullable: false,
         default: Date.now(),
     })
-    created_at: string;
+    created_at: string | number;
 
     @Column({
         type: 'timestamp',
         nullable: false,
         default: Date.now(),
     })
-    updated_at: string;
+    updated_at: string | number;
 
     @Column({
         type: 'timestamp',
         nullable: false,
         default: Date.now(),
     })
-    deleted_at: string | null;
+    deleted_at: string | null | number;
 
     @Column({
         type: 'uuid',
