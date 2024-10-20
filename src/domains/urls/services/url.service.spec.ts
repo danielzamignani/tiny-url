@@ -25,10 +25,10 @@ jest.mock('nestjs-typeorm-paginate', () => ({
         items: [
             {
                 id: '5c93f941-8a75-4ab1-bbe7-15a21fa17df1',
-                original_url: 'https://www.google.com.br',
-                short_url: 'http://localhost:3000/9KE2cJ',
-                created_at: '2024-10-19T21:34:38.525Z',
-                updated_at: '2024-10-19T21:34:38.525Z',
+                originalUrl: 'https://www.google.com.br',
+                shortUrl: 'http://localhost:3000/9KE2cJ',
+                createdAt: '2024-10-19T21:34:38.525Z',
+                updatedAt: '2024-10-19T21:34:38.525Z',
             },
         ],
         meta: {
@@ -41,7 +41,7 @@ jest.mock('nestjs-typeorm-paginate', () => ({
     }),
 }));
 
-const userId = urlMock.user_id;
+const userId = urlMock.userId;
 
 const queryBuilderMock = {
     where: jest.fn(),
@@ -108,9 +108,9 @@ describe('UrlService Tests', () => {
 
             expect(urlRepository.create).toHaveBeenCalledTimes(1);
             expect(urlRepository.create).toHaveBeenCalledWith({
-                original_url: url,
-                short_url: nanoIdMock,
-                user_id: null,
+                originalUrl: url,
+                shortUrl: nanoIdMock,
+                userId: null,
             });
         });
 
@@ -119,9 +119,9 @@ describe('UrlService Tests', () => {
 
             expect(urlRepository.create).toHaveBeenCalledTimes(1);
             expect(urlRepository.create).toHaveBeenCalledWith({
-                original_url: url,
-                short_url: nanoIdMock,
-                user_id: userId,
+                originalUrl: url,
+                shortUrl: nanoIdMock,
+                userId: userId,
             });
         });
 
@@ -162,7 +162,7 @@ describe('UrlService Tests', () => {
 
             expect(queryBuilderMock.where).toHaveBeenCalledTimes(1);
             expect(queryBuilderMock.where).toHaveBeenCalledWith(
-                'user_id = :userId',
+                'userId = :userId',
                 { userId }
             );
         });
@@ -172,7 +172,7 @@ describe('UrlService Tests', () => {
 
             expect(queryBuilderMock.orderBy).toHaveBeenCalledTimes(1);
             expect(queryBuilderMock.orderBy).toHaveBeenCalledWith(
-                'updated_at',
+                'updatedAt',
                 'DESC'
             );
         });
@@ -229,8 +229,8 @@ describe('UrlService Tests', () => {
             expect(urlRepository.update).toHaveBeenCalledWith(
                 { id: urlId },
                 {
-                    deleted_at: deleteDate,
-                    updated_at: deleteDate,
+                    deletedAt: deleteDate,
+                    updatedAt: deleteDate,
                 }
             );
         });
@@ -276,8 +276,8 @@ describe('UrlService Tests', () => {
             expect(urlRepository.update).toHaveBeenCalledWith(
                 { id: urlId },
                 {
-                    original_url: newUrl,
-                    updated_at: updateDate,
+                    originalUrl: newUrl,
+                    updatedAt: updateDate,
                 }
             );
         });

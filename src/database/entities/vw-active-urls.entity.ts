@@ -2,21 +2,33 @@ import { ViewColumn, ViewEntity } from 'typeorm';
 
 @ViewEntity('vw_active_urls')
 export class VwActiveUrl {
-    @ViewColumn()
+    @ViewColumn({
+        name: 'id',
+    })
     id: string;
 
-    @ViewColumn()
-    original_url: string;
+    @ViewColumn({
+        name: 'original_url',
+    })
+    originalUrl: string;
 
-    @ViewColumn()
-    short_url: string;
+    @ViewColumn({
+        name: 'short_url',
+    })
+    shortUrl: string;
 
-    @ViewColumn()
-    created_at: string;
+    @ViewColumn({
+        name: 'created_at',
+    })
+    createdAt: string;
 
-    @ViewColumn()
-    updated_at: string;
+    @ViewColumn({
+        name: 'updated_at',
+    })
+    updatedAt: string;
 
-    @ViewColumn()
-    user_id: string;
+    @ViewColumn({
+        name: 'user_id',
+    })
+    userId: string;
 }

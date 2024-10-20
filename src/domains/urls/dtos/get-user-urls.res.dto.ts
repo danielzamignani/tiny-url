@@ -8,10 +8,10 @@ export class GetUserUrlsResponseDTO extends PaginationResponseDTO {
         example: [
             {
                 id: '5c93f941-8a75-4ab1-bbe7-15a21fa17df1',
-                original_url: 'https://www.google.com.br',
-                short_url: 'http://localhost:3000/9KE2cJ',
-                created_at: '2024-10-19T21:34:38.525Z',
-                updated_at: '2024-10-19T21:34:38.525Z',
+                originalUrl: 'https://www.google.com.br',
+                shortUrl: 'http://localhost:3000/9KE2cJ',
+                createdAt: '2024-10-19T21:34:38.525Z',
+                updatedAt: '2024-10-19T21:34:38.525Z',
             } as VwActiveUrl,
         ],
         nullable: false,

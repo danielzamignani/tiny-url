@@ -12,6 +12,7 @@ export class User {
     @PrimaryColumn({
         type: 'uuid',
         unique: true,
+        name: 'id',
     })
     id: string;
 
@@ -19,6 +20,7 @@ export class User {
         type: 'varchar',
         length: '150',
         nullable: false,
+        name: 'name',
     })
     name: string;
 
@@ -26,6 +28,7 @@ export class User {
         type: 'varchar',
         length: '255',
         nullable: false,
+        name: 'email',
     })
     email: string;
 
@@ -33,6 +36,7 @@ export class User {
         type: 'varchar',
         length: '255',
         nullable: false,
+        name: 'password',
     })
     password: string;
 
@@ -40,8 +44,9 @@ export class User {
         type: 'timestamp',
         nullable: false,
         default: Date.now(),
+        name: 'created_at',
     })
-    created_at: string;
+    createdAt: string;
 
     @OneToMany(() => Url, (url) => url.user)
     urls?: Url[];

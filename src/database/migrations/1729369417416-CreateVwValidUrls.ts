@@ -4,7 +4,7 @@ export class CreateVwActiveUrls1729369417416 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
             CREATE VIEW 
-                "vw_active_urls" 
+                "vw_active_urls"
             AS
                 SELECT 
                     u.id,
@@ -22,6 +22,6 @@ export class CreateVwActiveUrls1729369417416 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropView('vw_active_urls');
+        await queryRunner.query('DROP VIEW "vw_active_urls"');
     }
 }

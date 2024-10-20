@@ -32,9 +32,9 @@ export class UrlService {
         const shortUrl = nanoid(6);
 
         const url = this.urlRepository.create({
-            original_url: originalUrl,
-            short_url: shortUrl,
-            user_id: userId ?? null,
+            originalUrl: originalUrl,
+            shortUrl: shortUrl,
+            userId: userId ?? null,
         });
 
         await this.urlRepository.insert(url);
@@ -51,8 +51,8 @@ export class UrlService {
         paginationRequestDTO: PaginationRequestDTO
     ): Promise<GetUserUrlsResponseDTO> {
         const queryBuilder = this.vwActiveUrlRepository.createQueryBuilder();
-        queryBuilder.where('user_id = :userId', { userId });
-        queryBuilder.orderBy('updated_at', 'DESC');
+        queryBuilder.where('userId = :userId', { userId });
+        queryBuilder.orderBy('updatedAt', 'DESC');
 
         const paginationResult = await paginate<VwActiveUrl>(
             queryBuilder,
@@ -60,7 +60,7 @@ export class UrlService {
         );
 
         paginationResult.items.forEach((item) => {
-            item.short_url = `${process.env.BASE_URL}/${item.short_url}`;
+            item.shortUrl = `${process.env.BASE_URL}/${item.shortUrl}`;
         });
 
         return paginationResult;
@@ -73,8 +73,8 @@ export class UrlService {
         await this.urlRepository.update(
             { id: urlId },
             {
-                deleted_at: deleteDate,
-                updated_at: deleteDate,
+                deletedAt: deleteDate,
+                updatedAt: deleteDate,
             }
         );
     }
@@ -89,8 +89,8 @@ export class UrlService {
         await this.urlRepository.update(
             { id: urlId },
             {
-                original_url: newUrl,
-                updated_at: getUTCDate(),
+                originalUrl: newUrl,
+                updatedAt: getUTCDate(),
             }
         );
 
@@ -109,7 +109,7 @@ export class UrlService {
 
         if (!url) throw new NotFoundException('Url not found');
 
-        if (url.user_id !== userId) {
+        if (url.userId !== userId) {
             throw new ForbiddenException(
                 'This URL does not belong to your account'
             );

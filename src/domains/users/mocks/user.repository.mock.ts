@@ -5,7 +5,7 @@ export const userMock: Omit<User, 'generateId'> = {
     name: 'Daniel Zamignnai',
     password: '$2b$10$HiKXhaWMGCWYpN9NReh6EOYnkiaxxdFUiJL4ZkX7RoIzjgLtR9/yK',
     email: 'danielzamignani@gmail.com',
-    created_at: '2024-10-18T15:27:08.714Z',
+    createdAt: '2024-10-18T15:27:08.714Z',
 };
 
 export const userRepositoryMock = {
