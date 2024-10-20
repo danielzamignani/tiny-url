@@ -9,7 +9,7 @@ import { SignInResponseDTO } from '../dtos/signin.res.dto';
 import { ApiUserSignIn } from '../decorators/api-user-signin.decorator';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller('v1/auth')
 export class AuthController {
     constructor(private authService: AuthService) {}
 

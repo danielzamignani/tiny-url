@@ -30,7 +30,7 @@ import { ApiUpdateUserUrl } from '../decorators/api-update-user-url.decorator';
 
 @ApiBearerAuth()
 @ApiTags('Url')
-@Controller('url')
+@Controller('v1/url')
 export class UrlController {
     constructor(private urlService: UrlService) {}
 
