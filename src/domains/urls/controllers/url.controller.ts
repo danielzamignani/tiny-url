@@ -7,6 +7,7 @@ import {
     HttpStatus,
     Param,
     ParseUUIDPipe,
+    Patch,
     Post,
     Query,
     UseGuards,
@@ -23,6 +24,9 @@ import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
 import { SimpleJwtGuard } from 'src/shared/guards/simple-jwt.guard';
 import { ApiGetUserUrls } from '../decorators/api-get-user-urls.decorator';
 import { ApiDeleteUserUrl } from '../decorators/api-delete-user-url.decorator';
+import { UpdateUserUrlDTO } from '../dtos/update-user-url.req.dto';
+import { UpdateUserUrlResponseDTO } from '../dtos/update-user-url.res.dto';
+import { ApiUpdateUserUrl } from '../decorators/api-update-user-url.decorator';
 
 @ApiBearerAuth()
 @ApiTags('Url')
@@ -64,5 +68,20 @@ export class UrlController {
         @CurrentUser() currentUser: ICurrentUser
     ): Promise<void> {
         await this.urlService.deleteUserUrl(urlId, currentUser.sub);
+    }
+
+    @ApiUpdateUserUrl()
+    @UseGuards(SimpleJwtGuard)
+    @Patch(':urlId')
+    async updateUserUrl(
+        @Param('urlId', new ParseUUIDPipe()) urlId: string,
+        @Body() { orinalUrl }: UpdateUserUrlDTO,
+        @CurrentUser() currentUser: ICurrentUser
+    ): Promise<UpdateUserUrlResponseDTO> {
+        return await this.urlService.updateUserUrl(
+            urlId,
+            orinalUrl,
+            currentUser.sub
+        );
     }
 }
