@@ -13,7 +13,7 @@ services:
         ports:
             - '3000:3000'
         entrypoint: >
-            sh -c "./wait-for-it.sh postgres:5432 --timeout=30 --strict -- npm run migration:run && npm run start:prod"
+            sh -c "./wait-for-it.sh postgres:5432 --timeout=30 --strict -- npm run migration:run && npm run start:dev"
 
     postgres:
         image: postgres:17.0-alpine
