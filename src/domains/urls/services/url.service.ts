@@ -13,6 +13,7 @@ import { paginate } from 'nestjs-typeorm-paginate';
 import { PaginationRequestDTO } from '../../../shared/dtos/pagination.req.dto';
 import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
 import { getUTCDate } from '../../../shared/helpers/date.helper';
+import { UpdateUserUrlResponseDTO } from '../dtos/update-user-url.res.dto';
 
 @Injectable()
 export class UrlService {
@@ -66,6 +67,42 @@ export class UrlService {
     }
 
     async deleteUserUrl(urlId: string, userId: string): Promise<void> {
+        await this.validateUrlOwnership(urlId, userId);
+
+        const deleteDate = getUTCDate();
+        await this.urlRepository.update(
+            { id: urlId },
+            {
+                deleted_at: deleteDate,
+                updated_at: deleteDate,
+            }
+        );
+    }
+
+    async updateUserUrl(
+        urlId: string,
+        newUrl: string,
+        userId: string
+    ): Promise<UpdateUserUrlResponseDTO> {
+        await this.validateUrlOwnership(urlId, userId);
+
+        await this.urlRepository.update(
+            { id: urlId },
+            {
+                original_url: newUrl,
+                updated_at: getUTCDate(),
+            }
+        );
+
+        return {
+            message: 'URL updated successfully',
+        };
+    }
+
+    private async validateUrlOwnership(
+        urlId: string,
+        userId: string
+    ): Promise<void> {
         const url = await this.vwActiveUrlRepository.findOneBy({
             id: urlId,
         });
@@ -77,14 +114,5 @@ export class UrlService {
                 'This URL does not belong to your account'
             );
         }
-
-        const deleteDate = getUTCDate();
-        await this.urlRepository.update(
-            { id: urlId },
-            {
-                deleted_at: deleteDate,
-                updated_at: deleteDate,
-            }
-        );
     }
 }
