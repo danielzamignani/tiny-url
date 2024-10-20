@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { UserService } from '../../../domains/users/services/user.service';
+import { UserService } from '@domains/users/services/user.service';
 
 import * as bcrypt from 'bcrypt';
 import { SignUpDTO } from '../dtos/signup.req.dto';
-import { userMock } from '../../../domains/users/mocks/user.repository.mock';
+import { userMock } from '@domains/users/mocks/user.repository.mock';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 

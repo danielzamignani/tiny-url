@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UrlService } from './url.service';
 import { nanoid } from 'nanoid';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Url } from '../../../database/entities/urls.entity';
+import { Url } from '@database/entities/urls.entity';
 import { Repository } from 'typeorm';
 import {
     queryBuilderMock,
@@ -12,19 +12,19 @@ import {
     vwActiveUrlRepositoryMock,
 } from '../mocks/url.repository.mock';
 import { CreateShortUrlResponseDTO } from '../dtos/create-short-url.res.dto';
-import { PaginationRequestDTO } from '../../../shared/dtos/pagination.req.dto';
-import { VwActiveUrl } from '../../../database/entities/vw-active-urls.entity';
+import { PaginationRequestDTO } from '@shared/dtos/pagination.req.dto';
+import { VwActiveUrl } from '@database/entities/vw-active-urls.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { getUTCDate } from '../../../shared/helpers/date.helper';
-import { AccessLog } from '../../../shared/types/url-access-log.type';
-import { UrlAccessLog } from '../../../database/entities/url-access-logs.entity';
+import { getUTCDate } from '@shared/helpers/date.helper';
+import { AccessLog } from '@shared/types/url-access-log.type';
+import { UrlAccessLog } from '@database/entities/url-access-logs.entity';
 
 jest.mock('nanoid', () => ({
     nanoid: jest.fn(),
 }));
 
-jest.mock('../../../shared/helpers/date.helper', () => ({
+jest.mock('@shared/helpers/date.helper', () => ({
     getUTCDate: jest.fn(),
 }));
 

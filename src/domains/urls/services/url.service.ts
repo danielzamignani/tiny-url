@@ -5,17 +5,17 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { nanoid } from 'nanoid';
-import { Url } from '../../../database/entities/urls.entity';
+import { Url } from '@database/entities/urls.entity';
 import { Repository } from 'typeorm';
 import { CreateShortUrlResponseDTO } from '../dtos/create-short-url.res.dto';
-import { VwActiveUrl } from '../../../database/entities/vw-active-urls.entity';
+import { VwActiveUrl } from '@database/entities/vw-active-urls.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
-import { PaginationRequestDTO } from '../../../shared/dtos/pagination.req.dto';
+import { PaginationRequestDTO } from '@shared/dtos/pagination.req.dto';
 import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
-import { getUTCDate } from '../../../shared/helpers/date.helper';
+import { getUTCDate } from '@shared/helpers/date.helper';
 import { UpdateUserUrlResponseDTO } from '../dtos/update-user-url.res.dto';
-import { UrlAccessLog } from '../../../database/entities/url-access-logs.entity';
-import { AccessLog } from '../../../shared/types/url-access-log.type';
+import { UrlAccessLog } from '@database/entities/url-access-logs.entity';
+import { AccessLog } from '@shared/types/url-access-log.type';
 
 @Injectable()
 export class UrlService {

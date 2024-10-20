@@ -1,4 +1,4 @@
-import { UrlAccessLog } from 'src/database/entities/url-access-logs.entity';
+import { UrlAccessLog } from '@database/entities/url-access-logs.entity';
 
 export type AccessLog = Pick<
     UrlAccessLog,

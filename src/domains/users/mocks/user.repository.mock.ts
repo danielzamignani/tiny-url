@@ -1,4 +1,4 @@
-import { User } from 'src/database/entities/users.entity';
+import { User } from '@database/entities/users.entity';
 
 export const userMock: Omit<User, 'generateId'> = {
     id: '782195d9-a9e5-42ed-b43f-7393604a46de',

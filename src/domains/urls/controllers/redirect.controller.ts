@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { UrlService } from '../services/url.service';
-import { ExtractAccessLog } from 'src/shared/decorators/log-info.decorator';
-import { AccessLog } from 'src/shared/types/url-access-log.type';
+import { ExtractAccessLog } from '@shared/decorators/log-info.decorator';
+import { AccessLog } from '@shared/types/url-access-log.type';
 import { Response } from 'express';
 import { ApiRedirect } from '../decorators/api-redirect.decorator';
 

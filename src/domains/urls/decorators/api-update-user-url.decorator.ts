@@ -6,7 +6,7 @@ import {
     ApiForbiddenResponse,
     ApiNotFoundResponse,
 } from '@nestjs/swagger';
-import { ApiUnauthorizedDecorator } from '../../../shared/decorators/api-unauthorized.decorator';
+import { ApiUnauthorizedDecorator } from '@shared/decorators/api-unauthorized.decorator';
 import { UpdateUserUrlDTO } from '../dtos/update-user-url.req.dto';
 
 export function ApiUpdateUserUrl() {

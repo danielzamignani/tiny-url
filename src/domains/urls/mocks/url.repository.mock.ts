@@ -1,4 +1,4 @@
-import { Url } from 'src/database/entities/urls.entity';
+import { Url } from '@database/entities/urls.entity';
 
 export const urlMock: Omit<Url, 'generateId'> = {
     id: '5c93f941-8a75-4ab1-bbe7-15a21fa17df1',

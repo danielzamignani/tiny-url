@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
-import { ApiUnauthorizedDecorator } from '../../../shared/decorators/api-unauthorized.decorator';
+import { ApiUnauthorizedDecorator } from '@shared/decorators/api-unauthorized.decorator';
 
 export function ApiGetUserUrls() {
     return applyDecorators(

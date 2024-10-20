@@ -7,7 +7,7 @@ import {
     ApiBearerAuth,
     ApiNoContentResponse,
 } from '@nestjs/swagger';
-import { ApiUnauthorizedDecorator } from 'src/shared/decorators/api-unauthorized.decorator';
+import { ApiUnauthorizedDecorator } from '@shared/decorators/api-unauthorized.decorator';
 
 export function ApiDeleteUserUrl() {
     return applyDecorators(

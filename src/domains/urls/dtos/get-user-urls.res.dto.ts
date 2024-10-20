@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { VwActiveUrl } from 'src/database/entities/vw-active-urls.entity';
-import { PaginationResponseDTO } from 'src/shared/dtos/pagination.res.dto';
+import { VwActiveUrl } from '@database/entities/vw-active-urls.entity';
+import { PaginationResponseDTO } from '@shared/dtos/pagination.res.dto';
 
 export class GetUserUrlsResponseDTO extends PaginationResponseDTO {
     @ApiProperty({

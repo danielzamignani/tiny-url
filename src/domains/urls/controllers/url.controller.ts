@@ -15,13 +15,13 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UrlService } from '../services/url.service';
 import { CreateShortUrlDTO } from '../dtos/create-short-url.req.dto';
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
-import { ICurrentUser } from 'src/shared/interfaces/current-user.interface';
+import { CurrentUser } from '@shared/decorators/current-user.decorator';
+import { ICurrentUser } from '@shared/interfaces/current-user.interface';
 import { CreateShortUrlResponseDTO } from '../dtos/create-short-url.res.dto';
 import { ApiCreateShortUrl } from '../decorators/api-create-short-url.decorator';
 import { GetUserUrlsDTO } from '../dtos/get-user-urls.req.dto';
 import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
-import { SimpleJwtGuard } from 'src/shared/guards/simple-jwt.guard';
+import { SimpleJwtGuard } from '@shared/guards/simple-jwt.guard';
 import { ApiGetUserUrls } from '../decorators/api-get-user-urls.decorator';
 import { ApiDeleteUserUrl } from '../decorators/api-delete-user-url.decorator';
 import { UpdateUserUrlDTO } from '../dtos/update-user-url.req.dto';
