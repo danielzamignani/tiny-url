@@ -14,6 +14,8 @@ import { PaginationRequestDTO } from '../../../shared/dtos/pagination.req.dto';
 import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
 import { getUTCDate } from '../../../shared/helpers/date.helper';
 import { UpdateUserUrlResponseDTO } from '../dtos/update-user-url.res.dto';
+import { UrlAccessLog } from 'src/database/entities/url-access-logs.entity';
+import { AccessLog } from 'src/shared/types/url-access-log.type';
 
 @Injectable()
 export class UrlService {
@@ -22,7 +24,10 @@ export class UrlService {
         private readonly urlRepository: Repository<Url>,
 
         @InjectRepository(VwActiveUrl)
-        private readonly vwActiveUrlRepository: Repository<VwActiveUrl>
+        private readonly vwActiveUrlRepository: Repository<VwActiveUrl>,
+
+        @InjectRepository(UrlAccessLog)
+        private readonly urlAccessLogRepository: Repository<UrlAccessLog>
     ) {}
 
     async createShortUrl(
@@ -97,6 +102,31 @@ export class UrlService {
         return {
             message: 'URL updated successfully',
         };
+    }
+
+    async getOriginalUrl(
+        shortUrlId: string,
+        accessLog: AccessLog
+    ): Promise<string> {
+        const url = await this.vwActiveUrlRepository.findOne({
+            select: ['id', 'originalUrl'],
+            where: { shortUrl: shortUrlId },
+        });
+
+        if (!url) throw new NotFoundException('Url not found');
+
+        this.registerAccessLog(url.id, accessLog);
+
+        return url.originalUrl;
+    }
+
+    private registerAccessLog(urlId: string, accessLog: AccessLog): void {
+        const urlAccessLog = this.urlAccessLogRepository.create({
+            urlId,
+            ...accessLog,
+        });
+
+        this.urlAccessLogRepository.insert(urlAccessLog);
     }
 
     private async validateUrlOwnership(
