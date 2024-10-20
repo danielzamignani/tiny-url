@@ -14,8 +14,8 @@ import { PaginationRequestDTO } from '../../../shared/dtos/pagination.req.dto';
 import { GetUserUrlsResponseDTO } from '../dtos/get-user-urls.res.dto';
 import { getUTCDate } from '../../../shared/helpers/date.helper';
 import { UpdateUserUrlResponseDTO } from '../dtos/update-user-url.res.dto';
-import { UrlAccessLog } from 'src/database/entities/url-access-logs.entity';
-import { AccessLog } from 'src/shared/types/url-access-log.type';
+import { UrlAccessLog } from '../../../database/entities/url-access-logs.entity';
+import { AccessLog } from '../../../shared/types/url-access-log.type';
 
 @Injectable()
 export class UrlService {

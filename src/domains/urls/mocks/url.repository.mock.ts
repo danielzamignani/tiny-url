@@ -10,8 +10,24 @@ export const urlMock: Omit<Url, 'generateId'> = {
     userId: '029e67cd-87c8-421c-ba12-4ceadb4cfbf8',
 };
 
+export const queryBuilderMock = {
+    where: jest.fn(),
+    orderBy: jest.fn(),
+};
+
 export const urlRepositoryMock = {
     insert: jest.fn(),
     create: jest.fn().mockReturnValue(urlMock),
     update: jest.fn(),
+};
+
+export const urlAccessLogRepositoryMock = {
+    insert: jest.fn(),
+    create: jest.fn().mockReturnValue(urlMock),
+};
+
+export const vwActiveUrlRepositoryMock = {
+    createQueryBuilder: jest.fn().mockImplementation(() => queryBuilderMock),
+    findOneBy: jest.fn().mockResolvedValue(urlMock),
+    findOne: jest.fn().mockResolvedValue(urlMock),
 };

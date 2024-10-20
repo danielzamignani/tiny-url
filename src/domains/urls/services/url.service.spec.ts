@@ -4,13 +4,21 @@ import { nanoid } from 'nanoid';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Url } from '../../../database/entities/urls.entity';
 import { Repository } from 'typeorm';
-import { urlMock, urlRepositoryMock } from '../mocks/url.repository.mock';
+import {
+    queryBuilderMock,
+    urlAccessLogRepositoryMock,
+    urlMock,
+    urlRepositoryMock,
+    vwActiveUrlRepositoryMock,
+} from '../mocks/url.repository.mock';
 import { CreateShortUrlResponseDTO } from '../dtos/create-short-url.res.dto';
 import { PaginationRequestDTO } from '../../../shared/dtos/pagination.req.dto';
 import { VwActiveUrl } from '../../../database/entities/vw-active-urls.entity';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { getUTCDate } from '../../../shared/helpers/date.helper';
+import { AccessLog } from '../../../shared/types/url-access-log.type';
+import { UrlAccessLog } from '../../../database/entities/url-access-logs.entity';
 
 jest.mock('nanoid', () => ({
     nanoid: jest.fn(),
@@ -43,15 +51,11 @@ jest.mock('nestjs-typeorm-paginate', () => ({
 
 const userId = urlMock.userId;
 
-const queryBuilderMock = {
-    where: jest.fn(),
-    orderBy: jest.fn(),
-};
-
 describe('UrlService Tests', () => {
     let urlService: UrlService;
     let urlRepository: Repository<Url>;
     let vwActiveUrlRepository: Repository<VwActiveUrl>;
+    let urlAccessLogRepository: Repository<UrlAccessLog>;
 
     beforeAll(async () => {
         const urlModule: TestingModule = await Test.createTestingModule({
@@ -63,12 +67,11 @@ describe('UrlService Tests', () => {
                 },
                 {
                     provide: getRepositoryToken(VwActiveUrl),
-                    useValue: {
-                        createQueryBuilder: jest
-                            .fn()
-                            .mockImplementation(() => queryBuilderMock),
-                        findOneBy: jest.fn().mockResolvedValue(urlMock),
-                    },
+                    useValue: vwActiveUrlRepositoryMock,
+                },
+                {
+                    provide: getRepositoryToken(UrlAccessLog),
+                    useValue: urlAccessLogRepositoryMock,
                 },
             ],
         }).compile();
@@ -76,6 +79,9 @@ describe('UrlService Tests', () => {
         urlRepository = urlModule.get<Repository<Url>>(getRepositoryToken(Url));
         vwActiveUrlRepository = urlModule.get<Repository<VwActiveUrl>>(
             getRepositoryToken(VwActiveUrl)
+        );
+        urlAccessLogRepository = urlModule.get<Repository<UrlAccessLog>>(
+            getRepositoryToken(UrlAccessLog)
         );
     });
 
@@ -280,6 +286,52 @@ describe('UrlService Tests', () => {
                     updatedAt: updateDate,
                 }
             );
+        });
+    });
+
+    describe('getOriginalUrl', () => {
+        const shortUrlId = 'abc123';
+        const accessLog: AccessLog = {
+            accessedAt: new Date().toISOString(),
+            ipAddress: '1',
+            userAgent: null,
+        };
+
+        it('should find the url by id', async () => {
+            await urlService.getOriginalUrl(shortUrlId, accessLog);
+
+            expect(vwActiveUrlRepository.findOne).toHaveBeenCalledTimes(1);
+            expect(vwActiveUrlRepository.findOne).toHaveBeenCalledWith({
+                select: ['id', 'originalUrl'],
+                where: { shortUrl: shortUrlId },
+            });
+        });
+
+        it('should throw error if not found url', async () => {
+            (vwActiveUrlRepository.findOne as jest.Mock).mockResolvedValueOnce(
+                null
+            );
+
+            await expect(
+                urlService.getOriginalUrl(shortUrlId, accessLog)
+            ).rejects.toThrow(NotFoundException);
+        });
+
+        it('should register the access log', async () => {
+            await urlService.getOriginalUrl(shortUrlId, accessLog);
+
+            expect(urlAccessLogRepository.create).toHaveBeenCalledTimes(1);
+            expect(urlAccessLogRepository.create).toHaveBeenCalledWith({
+                urlId: urlMock.id,
+                ...accessLog,
+            });
+            expect(urlAccessLogRepository.insert).toHaveBeenCalledTimes(1);
+        });
+
+        it('should return original url', async () => {
+            const res = await urlService.getOriginalUrl(shortUrlId, accessLog);
+
+            expect(res).toEqual(urlMock.originalUrl);
         });
     });
 });
