@@ -235,4 +235,51 @@ describe('UrlService Tests', () => {
             );
         });
     });
+
+    describe('updateUserUrl', () => {
+        const urlId = urlMock.id;
+        const newUrl = 'https://www.google.com.br';
+
+        it('should find the url by id', async () => {
+            await urlService.updateUserUrl(urlId, newUrl, userId);
+
+            expect(vwActiveUrlRepository.findOneBy).toHaveBeenCalledTimes(1);
+            expect(vwActiveUrlRepository.findOneBy).toHaveBeenCalledWith({
+                id: urlId,
+            });
+        });
+
+        it('should throw error if not found url', async () => {
+            (
+                vwActiveUrlRepository.findOneBy as jest.Mock
+            ).mockResolvedValueOnce(null);
+
+            await expect(
+                urlService.updateUserUrl(urlId, newUrl, userId)
+            ).rejects.toThrow(NotFoundException);
+        });
+
+        it('should throw error if user id dont match', async () => {
+            await expect(
+                urlService.updateUserUrl(urlId, newUrl, '123456')
+            ).rejects.toThrow(ForbiddenException);
+        });
+
+        it('should register update in table', async () => {
+            const updateDate = new Date();
+
+            (getUTCDate as jest.Mock).mockReturnValueOnce(updateDate);
+
+            await urlService.updateUserUrl(urlId, newUrl, userId);
+
+            expect(urlRepository.update).toHaveBeenCalledTimes(1);
+            expect(urlRepository.update).toHaveBeenCalledWith(
+                { id: urlId },
+                {
+                    original_url: newUrl,
+                    updated_at: updateDate,
+                }
+            );
+        });
+    });
 });
