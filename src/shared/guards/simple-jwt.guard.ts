@@ -18,7 +18,7 @@ export class SimpleJwtGuard implements CanActivate {
 
         if (!token) {
             throw new UnauthorizedException(
-                'You must be logged in to access this resource'
+                'You must be logged in to access this resource.'
             );
         }
 
@@ -27,7 +27,7 @@ export class SimpleJwtGuard implements CanActivate {
                 secret: process.env.JWT_SECRET,
             });
         } catch {
-            throw new UnauthorizedException('Invalid or expired token');
+            throw new UnauthorizedException('Invalid or expired token.');
         }
 
         return true;

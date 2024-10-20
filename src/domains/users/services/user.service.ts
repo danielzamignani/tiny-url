@@ -21,7 +21,7 @@ export class UserService {
         });
 
         if (userCount !== 0) {
-            throw new UnprocessableEntityException('User already exists');
+            throw new UnprocessableEntityException('User already exists.');
         }
 
         const user = this.userRepository.create(createUserDTO);

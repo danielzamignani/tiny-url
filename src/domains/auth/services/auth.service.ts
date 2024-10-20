@@ -33,7 +33,7 @@ export class AuthService {
         const passwordMatch = await bcrypt.compare(password, user?.password);
 
         if (!user || !passwordMatch) {
-            throw new UnauthorizedException('Email or password incorrect');
+            throw new UnauthorizedException('Email or password incorrect.');
         }
 
         const payload = { sub: user.id, email: user.email };

@@ -11,8 +11,10 @@ import { SignInResponseDTO } from '../dtos/signin.res.dto';
 export function ApiUserSignIn() {
     return applyDecorators(
         ApiOperation({
-            summary: 'Login user in app',
-            description: 'Login user and return JWT token',
+            summary: 'Login User',
+            description:
+                'Authenticates a user and returns a JWT token for subsequent requests. ' +
+                'Provide valid credentials (email and password) to log in successfully.',
         }),
         ApiBody({ type: SignInDTO }),
         ApiOkResponse({ type: SignInResponseDTO }),
@@ -23,9 +25,13 @@ export function ApiUserSignIn() {
                     statusCode: { type: 'number', example: 401 },
                     message: {
                         type: 'string',
-                        example: 'Email or password incorrect',
+                        example: 'Email or password incorrect.',
                     },
-                    error: { type: 'string', example: 'Unauthorized' },
+                    path: { type: 'string', example: 'v1/auth/signin' },
+                    timestamp: {
+                        type: 'string',
+                        example: new Date().toISOString(),
+                    },
                 },
             },
         })

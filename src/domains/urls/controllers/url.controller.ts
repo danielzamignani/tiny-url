@@ -29,7 +29,7 @@ import { UpdateUserUrlResponseDTO } from '../dtos/update-user-url.res.dto';
 import { ApiUpdateUserUrl } from '../decorators/api-update-user-url.decorator';
 
 @ApiBearerAuth()
-@ApiTags('Url')
+@ApiTags('Urls')
 @Controller('v1/url')
 export class UrlController {
     constructor(private urlService: UrlService) {}

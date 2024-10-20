@@ -11,8 +11,9 @@ import { SignUpDTO } from '../dtos/signup.req.dto';
 export function ApiUserSignUp() {
     return applyDecorators(
         ApiOperation({
-            summary: 'Create a user',
-            description: 'Create a new user',
+            summary: 'Create a User',
+            description:
+                'Creates a new user in the system with the provided details.',
         }),
         ApiBody({ type: SignUpDTO }),
         ApiCreatedResponse({ type: SignUpResponseDTO }),
@@ -23,9 +24,13 @@ export function ApiUserSignUp() {
                     statusCode: { type: 'number', example: 422 },
                     message: {
                         type: 'string',
-                        example: 'User already exists!',
+                        example: 'User already exists.',
                     },
-                    error: { type: 'string', example: 'Unprocessable Entity' },
+                    path: { type: 'string', example: 'v1/auth/singup' },
+                    timestamp: {
+                        type: 'string',
+                        example: new Date().toISOString(),
+                    },
                 },
             },
         })

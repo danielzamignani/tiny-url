@@ -11,8 +11,8 @@ export function ApiUnauthorizedDecorator() {
                     message: {
                         type: 'string',
                         example: [
-                            'You must be logged in to access this resource',
-                            'Invalid or expired token',
+                            'You must be logged in to access this resource.',
+                            'Invalid or expired token.',
                         ],
                     },
                     error: { type: 'string', example: 'Unauthorized' },

@@ -8,8 +8,9 @@ import {
 export function ApiRedirect() {
     return applyDecorators(
         ApiOperation({
-            summary: 'Redirect to original url',
-            description: 'Redirect to original url',
+            summary: 'Redirect to original URL',
+            description:
+                'Redirects the request to the original URL based on the provided short URL.',
         }),
         ApiFoundResponse(),
         ApiNotFoundResponse({
@@ -19,9 +20,13 @@ export function ApiRedirect() {
                     statusCode: { type: 'number', example: 404 },
                     message: {
                         type: 'string',
-                        example: 'Url not found',
+                        example: 'Url not found.',
                     },
-                    error: { type: 'string', example: 'Not Found' },
+                    path: { type: 'string', example: '/{shortUrlId}' },
+                    timestamp: {
+                        type: 'string',
+                        example: new Date().toISOString(),
+                    },
                 },
             },
         })

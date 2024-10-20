@@ -11,8 +11,9 @@ import { CreateShortUrlResponseDTO } from '../dtos/create-short-url.res.dto';
 export function ApiCreateShortUrl() {
     return applyDecorators(
         ApiOperation({
-            summary: 'Create a short url from the original url',
-            description: 'Create a short url from the original url',
+            summary: 'Create Short URL',
+            description:
+                'Generates a shortened URL from the provided original URL. ',
         }),
         ApiBody({ type: CreateShortUrlDTO }),
         ApiCreatedResponse({ type: CreateShortUrlResponseDTO }),

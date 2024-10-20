@@ -14,7 +14,8 @@ export function ApiDeleteUserUrl() {
         ApiBearerAuth(),
         ApiOperation({
             summary: 'Delete a user url',
-            description: 'Delete a user url based on id',
+            description:
+                'Deletes a user-generated short URL based on the provided ID.',
         }),
         ApiNoContentResponse(),
         ApiNotFoundResponse({
@@ -24,9 +25,13 @@ export function ApiDeleteUserUrl() {
                     statusCode: { type: 'number', example: 404 },
                     message: {
                         type: 'string',
-                        example: 'Url not found',
+                        example: 'Url not found.',
                     },
-                    error: { type: 'string', example: 'Not Found' },
+                    path: { type: 'string', example: 'v1/urls/{urlId}/' },
+                    timestamp: {
+                        type: 'string',
+                        example: new Date().toISOString(),
+                    },
                 },
             },
         }),
@@ -37,9 +42,13 @@ export function ApiDeleteUserUrl() {
                     statusCode: { type: 'number', example: 403 },
                     message: {
                         type: 'string',
-                        example: 'This URL does not belong to your account',
+                        example: 'This URL does not belong to your account.',
                     },
-                    error: { type: 'string', example: 'Forbidden' },
+                    path: { type: 'string', example: 'v1/urls/{urlId}/' },
+                    timestamp: {
+                        type: 'string',
+                        example: new Date().toISOString(),
+                    },
                 },
             },
         }),

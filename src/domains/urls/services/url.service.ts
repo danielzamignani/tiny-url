@@ -113,7 +113,7 @@ export class UrlService {
             where: { shortUrl: shortUrlId },
         });
 
-        if (!url) throw new NotFoundException('Url not found');
+        if (!url) throw new NotFoundException('Url not found.');
 
         this.registerAccessLog(url.id, accessLog);
 
@@ -137,7 +137,7 @@ export class UrlService {
             id: urlId,
         });
 
-        if (!url) throw new NotFoundException('Url not found');
+        if (!url) throw new NotFoundException('Url not found.');
 
         if (url.userId !== userId) {
             throw new ForbiddenException(

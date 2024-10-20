@@ -23,5 +23,5 @@ export class PaginationRequestDTO implements IPaginationOptions {
     })
     @IsNumberString()
     @IsNumber()
-    page: string | number = 1;
+    page: string | number = '1';
 }
