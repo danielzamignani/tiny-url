@@ -168,7 +168,7 @@ describe('UrlService Tests', () => {
 
             expect(queryBuilderMock.where).toHaveBeenCalledTimes(1);
             expect(queryBuilderMock.where).toHaveBeenCalledWith(
-                'userId = :userId',
+                'user_id = :userId',
                 { userId }
             );
         });
@@ -178,7 +178,7 @@ describe('UrlService Tests', () => {
 
             expect(queryBuilderMock.orderBy).toHaveBeenCalledTimes(1);
             expect(queryBuilderMock.orderBy).toHaveBeenCalledWith(
-                'updatedAt',
+                'updated_at',
                 'DESC'
             );
         });

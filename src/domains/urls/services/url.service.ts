@@ -56,8 +56,8 @@ export class UrlService {
         paginationRequestDTO: PaginationRequestDTO
     ): Promise<GetUserUrlsResponseDTO> {
         const queryBuilder = this.vwActiveUrlRepository.createQueryBuilder();
-        queryBuilder.where('userId = :userId', { userId });
-        queryBuilder.orderBy('updatedAt', 'DESC');
+        queryBuilder.where('user_id = :userId', { userId });
+        queryBuilder.orderBy('updated_at', 'DESC');
 
         const paginationResult = await paginate<VwActiveUrl>(
             queryBuilder,
