@@ -12,6 +12,7 @@ export class GetUserUrlsResponseDTO extends PaginationResponseDTO {
                 shortUrl: 'http://localhost:3000/9KE2cJ',
                 createdAt: '2024-10-19T21:34:38.525Z',
                 updatedAt: '2024-10-19T21:34:38.525Z',
+                totalAccess: 10,
             } as VwActiveUrl,
         ],
         nullable: false,

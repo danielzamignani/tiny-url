@@ -31,4 +31,9 @@ export class VwActiveUrl {
         name: 'user_id',
     })
     userId: string;
+
+    @ViewColumn({
+        name: 'total_access',
+    })
+    totalAccess: number;
 }
