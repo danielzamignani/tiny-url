@@ -2,10 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { GlobalExceptionFilter } from '@shared/filters/global-exception.filter';
+import { HttpLogInterceptor } from '@shared/interceptors/http-log.interceptor';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useGlobalFilters(new GlobalExceptionFilter());
+    app.useGlobalInterceptors(new HttpLogInterceptor());
 
     const config = new DocumentBuilder()
         .setTitle('Tiny URL')
